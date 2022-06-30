@@ -1,0 +1,44 @@
+Config { font            = "xft:Ubuntu Nerd Font:style=bold:pixelsize=11:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:JetBrainsMono Nerd Font:pixelsize=11:antialias=true:hinting=true"
+                           , "xft:Font Awesome 5 Free Solid:pixelsize=11"
+                           , "xft:Font Awesome 5 Brands:pixelsize=11"
+                           ]
+       , bgColor      = "#121212"
+       , fgColor      = "#DDE3ED"
+       , position       = TopSize L 100 20
+       , lowerOnStart = True
+       , hideOnStart  = False
+       , allDesktops  = True
+       , persistent   = True
+       , iconRoot     = "/home/rizal/.xmonad/xpm/"  -- default: "."
+       , commands = [
+                      Run Com "echo" ["<fn=3>\xf17c</fn>"] "penguin" 3600
+                    , Run Com ".local/bin/kernel" [] "kernel" 36000
+                    , Run Cpu ["-t", "<fn=2>\xf108</fn>  cpu: (<total>%)","-H","50","--high","red"] 60
+                    , Run Memory ["-t", "<fn=2>\xf233</fn>  mem: <used>M (<usedratio>%)"] 60
+                    , Run DiskU [("/", "<fn=2>\xf0c7</fn>  root: <free>"),("sdb4", " home: <free>")] [] 120
+                    , Run Com "echo" ["<fn=2>\xf0aa</fn>"] "uparrow" 3600
+                    , Run Uptime ["-t", "uptime: <days>d <hours>h"] 360
+                    , Run Date "<fn=2>\xf017</fn> %a, %b %d %Y - (%H:%M) " "date" 60
+                    , Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 30
+                    , Run UnsafeStdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "\
+           \<icon=haskell_20.xpm/>   \
+           \<fc=#4a4a4a>|</fc> %UnsafeStdinReader%\
+           \}{\
+           \<box type=Bottom width=2 mb=2 color=#82AAFF><fc=#82AAFF>%penguin%  %kernel%</fc></box>\
+           \    \
+           \<box type=Bottom width=2 mb=2 color=#89DDFF><fc=#89DDFF><action=`st -e btop`>%cpu%</action></fc></box>\
+           \    \
+           \<box type=Bottom width=2 mb=2 color=#89DDFF><fc=#89DDFF><action=`st -e btop`>%memory%</action></fc></box>\
+           \    \
+           \<box type=Bottom width=2 mb=2 color=#FFCB6B><fc=#FFCB6B>%uparrow%  %uptime%</fc></box>\
+           \    \
+           \<box type=Bottom width=2 mb=2 color=#F07178><fc=#F07178><action=`st -e ncdu /home/$USER`>%disku%</action></fc></box>\
+           \    \
+           \<box type=Bottom width=2 mb=2 color=#FF5370><fc=#FF5370><action=`st -e nvim`>%date%</action></fc></box>\
+           \%trayerpad%"
+        }
